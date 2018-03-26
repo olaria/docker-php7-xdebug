@@ -10,7 +10,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install zip unzip git autoco
     && echo "xdebug.remote_port=9001\n" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
 
-RUN docker-php-ext-install mbstring
+RUN docker-php-ext-install mbstring pdo pdo_mysql
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin --filename=composer
