@@ -1,13 +1,16 @@
-FROM vinaocruz/php-7
+FROM vinaocruz/php-7:alpine
 
-RUN apt-get update && apt-get install autoconf pkg-config libssl-dev -y \
-    && pecl channel-update pecl.php.net && pecl install channel://pecl.php.net/geospatial-0.2.0 \
-    && pecl install xdebug \
-    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\n" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable=on\n" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=off\n" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_port=9001\n" >> /usr/local/etc/php/conf.d/xdebug.ini
+RUN apk add --no-cache \
+		--virtual .phpize_deps \
+		$PHPIZE_DEPS \
+        libressl-dev
 
-RUN rm -rf /tmp/pear
+RUN pecl install xdebug && \
+	docker-php-ext-enable xdebug
 
-USER www-data
+RUN apk del .phpize_deps
+
+ENV XDEBUG_INI_DIR /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN echo "xdebug.remote_enable=on" >> $XDEBUG_INI_DIR \
+    && echo "xdebug.remote_autostart=off" >> $XDEBUG_INI_DIR \
+    && echo "xdebug.remote_port=9001" >> $XDEBUG_INI_DIR
