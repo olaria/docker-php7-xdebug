@@ -1,12 +1,12 @@
-FROM vinaocruz/php-7:alpine
+FROM olaria/php7:7.3-alpine
 
 RUN apk add --no-cache \
 		--virtual .phpize_deps \
 		$PHPIZE_DEPS \
         libressl-dev
 
-RUN pecl install xdebug && \
-	docker-php-ext-enable xdebug
+RUN pecl install xdebug-2.7.0beta1
+RUN docker-php-ext-enable xdebug
 
 RUN apk del .phpize_deps
 
