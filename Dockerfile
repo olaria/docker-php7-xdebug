@@ -4,7 +4,7 @@ RUN apk add --no-cache \
 		--virtual .phpize_deps \
 		$PHPIZE_DEPS
 
-RUN pecl install xdebug-2.7.0beta1
+RUN pecl install xdebug-2.7.2
 RUN docker-php-ext-enable xdebug
 
 RUN apk del .phpize_deps
