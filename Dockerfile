@@ -1,10 +1,10 @@
-FROM olaria/php7:7.3-alpine
+FROM olaria/php7:7.4-alpine
 
 RUN apk add --no-cache \
 		--virtual .phpize_deps \
 		$PHPIZE_DEPS
 
-RUN pecl install xdebug-2.7.2
+RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
 RUN apk del .phpize_deps
