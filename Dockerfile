@@ -1,7 +1,11 @@
 FROM olaria/php7:7.4-alpine
 
-RUN pecl install xdebug
+RUN apk add --no-cache $PHPIZE_DEPS
+
+RUN pecl install xdebug-2.7.2
 RUN docker-php-ext-enable xdebug
+
+RUN apk del .phpize_deps
 
 ENV XDEBUG_INI_DIR /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN echo "xdebug.remote_enable=on" >> $XDEBUG_INI_DIR \
